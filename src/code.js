@@ -1,4 +1,4 @@
-import {player as my_player} from '../src/player.js'
+
 const PI2 = Math.PI*2;
 var canvas;
 var ASPECT_RATIO = {
@@ -20,7 +20,8 @@ var time = 0,
     frames=0,
     acumDelta=0;
 
-var player = null;
+var my_player = null;
+var my_world = null;
 
 window.requestAnimationFrame = (function (evt) {
     return window.requestAnimationFrame ||
@@ -41,6 +42,10 @@ if (canvas)
     {
         
         SetupKeyboardEvents();
+        //cargo los assets del juego
+        //do{full_load = load_tiles_img();}while(!full_load);
+        //do{full_load = load_player_img();}while(!full_load);
+        
         //aqui hay que dar valores a las variables y dar rutas
 
         /*bulletImg = new Image();
@@ -63,26 +68,58 @@ if (canvas)
                 };
             };
         };*/
-
-        Start();
-        Loop();
+        
+        //las funciones de carga de assets son asincronicas por lo que lo que nos devuelve es una promesa
+        if(load_all_img().then((load)=>load==true)){
+            Start();
+            Loop();
+        }
         
     }
 }
 
 function Start (){
-    player = new my_player();
-    player.Start();
+    my_world = world;
+    my_world.Start({x:20,y:20});
+    my_world.build_world();
+
+    //ctx.drawImage(tile_clicks_img,0,0);
+    //player = new my_player();
+    //player.Start();
 
 
 }
 function Loop (){
+    //console.log("loop");
+    requestAnimationFrame(Loop);
+    // compute fps
+    var now = Date.now();
+    deltaTime = now - time;
+    // si el tiempo es mayor a 1 seg: se descarta
+    if (deltaTime > 1000)
+        deltaTime = 0;
+    time = now;
+    frames++;
+    acumDelta += deltaTime;
+    if(acumDelta > 1000)
+    {
+        fps = frames;
+        frames = 0;
+        acumDelta -= 1000;
+    }
 
+    //var now = new Date().getTime();
+    //console.log("elapsed time: " + (now - currentDT));
+    //currentDT = now;
+
+    Update(deltaTime / 1000);
+    Draw();
 }
 function Update (deltaTime){
 
 }
 function Draw (){
+    my_world.Draw(ctx);
 
 }
 

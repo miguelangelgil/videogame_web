@@ -6,7 +6,7 @@ let player = {
     },
     clicks : 0,
     speed : 20,
-    animate = new animation(),
+    animate = animation,
 
     Start : function() {
         img = player_img;

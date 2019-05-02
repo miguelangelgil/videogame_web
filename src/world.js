@@ -7,38 +7,55 @@ let world = {
         x:0,
         y:0,
     },
-    tile_world:[,],
+    tile_world: new Array(2),
     build_world: function(){
+        this.tile_world[0] = new Array(this.size.x);
+        this.tile_world[1] = new Array(this.size.y);
+
         for(this.position_array.x = 0; this.position_array.x < this.size.x; this.position_array.x++){
             for(this.position_array.y = 0; this.position_array.y < this.size.y; this.position_array.y++){
-                my_tile = new tile();
+                console.log("halo");
+                my_tile = tile;
                 my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},0);
-                this.tile_world[this.position_array.x,this.position_array.y] = my_tile;
+                this.tile_world[this.position_array.x][this.position_array.y] = my_tile;
             }
         }
 
         for(this.position_array.x=0; this.position_array.x < this.size.x; this.position_array.x++){
             for(this.position_array.y=0;this.position_array.y < this.size.y; this.position_array.y++){
                 if(this.position_array.x != 0)
-                    this.tile_world[this.position_array.x,this.position_array.y].near_tiles[0] = this.tile_world[this.position_array.x-1,this.position_array.y];
+                    this.tile_world[this.position_array.x][this.position_array.y].near_tiles[0] = this.tile_world[this.position_array.x-1][this.position_array.y];
                 else
-                    this.tile_world[this.position_array.x,this.position_array.y].near_tiles[0] = null;
+                    this.tile_world[this.position_array.x][this.position_array.y].near_tiles[0] = null;
 
                 if(this.position_array.y != this.size.y - 1)
-                    this.tile_world[this.position_array.x,this.position_array.y].near_tiles[1] = this.tile_world[this.position_array.x,this.position_array.y+1];
+                    this.tile_world[this.position_array.x][this.position_array.y].near_tiles[1] = this.tile_world[this.position_array.x][this.position_array.y+1];
                 else
-                    this.tile_world[this.position_array.x,this.position_array.y].near_tiles[1] = null;
+                    this.tile_world[this.position_array.x][this.position_array.y].near_tiles[1] = null;
 
                 if(this.position_array.x != this.size.x - 1)
-                    this.tile_world[this.position_array.x,this.position_array.y].near_tiles[2] = this.tile_world[this.position_array.x+1,this.position_array.y];
+                    this.tile_world[this.position_array.x][this.position_array.y].near_tiles[2] = this.tile_world[this.position_array.x+1][this.position_array.y];
                 else
-                    this.tile_world[this.position_array.x,this.position_array.y].near_tiles[2] = null;
+                    this.tile_world[this.position_array.x][this.position_array.y].near_tiles[2] = null;
 
                 if(this.position_array.y != 0)
-                    this.tile_world[this.position_array.x,this.position_array.y].near_tiles[3] = this.tile_world[this.position_array.x,this.position_array.y - 1];
+                    this.tile_world[this.position_array.x][this.position_array.y].near_tiles[3] = this.tile_world[this.position_array.x][this.position_array.y - 1];
                 else
-                    this.tile_world[this.position_array.x,this.position_array.y].near_tiles[3] = null;
+                    this.tile_world[this.position_array.x][this.position_array.y].near_tiles[3] = null;
             }   
+        }
+    },
+    Start: function(size){
+        this.size.x = size.x;
+        this.size.y = size.y;
+    },
+    Draw: function(ctx){
+        //this.tile_world[0,0].Draw(ctx);
+        for(var x = 0; x < this.size.x; x++){
+            for(var y = 0; y < this.size.y; y++){
+                
+                this.tile_world[x][y].Draw(ctx);
+            }
         }
     },
     
@@ -55,10 +72,10 @@ let tile={
     },
     clicks : 0,
     size:{
-        x:0,
-        y:0,
+        x:1,
+        y:1,
     },
-    near_tiles:[],
+    near_tiles: new Array(),
 
     transfer_clicks : function() {
         this.near_tiles.forEach(function(element){
@@ -86,6 +103,8 @@ let tile={
 
     },
     Draw : function(ctx) {
+        console.log('hola');
+        ctx.drawImage(this.img,this.position.x,this.position.y);
 
 
      }
