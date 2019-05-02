@@ -6,14 +6,10 @@ let player = {
     },
     clicks : 0,
     speed : 20,
-    animate = new animation,
-
-
+    animate = new animation(),
 
     Start : function() {
-        img = new Image();
-        img.src = '../assets/george.png';
-
+        img = player_img;
         animate.Start(img, 4, 4, {x:12,y:12});
 
     } ,
