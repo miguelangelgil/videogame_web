@@ -43,7 +43,7 @@ if (canvas)
         
         SetupKeyboardEvents();
         //cargo los assets del juego
-        //do{full_load = load_tiles_img();}while(!full_load);
+        //do{full_load = load_Tiles_img();}while(!full_load);
         //do{full_load = load_player_img();}while(!full_load);
         
         //aqui hay que dar valores a las variables y dar rutas
@@ -82,8 +82,11 @@ function Start (){
     my_world = world;
     my_world.Start({x:100,y:100},10);
     my_world.build_world();
+    my_player = new Player();
+    my_player.Start();
+    //my_player.Start();
 
-    //ctx.drawImage(tile_clicks_img,0,0);
+    //ctx.drawImage(Tile_clicks_img,0,0);
     //player = new my_player();
     //player.Start();
 
