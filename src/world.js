@@ -7,15 +7,17 @@ let world = {
         x:0,
         y:0,
     },
-    tile_world: new Array(2),
+    tile_world: null,
     build_world: function(){
-        this.tile_world[0] = new Array(this.size.x);
-        this.tile_world[1] = new Array(this.size.y);
+        this.tile_world = new Array(this.size.x);
+        for(var i = 0; i < this.size.x; i++)
+            this.tile_world[i] = new Array(this.size.y);
+        
 
         for(this.position_array.x = 0; this.position_array.x < this.size.x; this.position_array.x++){
             for(this.position_array.y = 0; this.position_array.y < this.size.y; this.position_array.y++){
-                console.log("halo");
-                my_tile = tile;
+                console.log(this.position_array.x + ", " + this.position_array.y);
+                my_tile = new tile();
                 my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},0);
                 this.tile_world[this.position_array.x][this.position_array.y] = my_tile;
             }
@@ -62,22 +64,22 @@ let world = {
 }
 
 
-let tile={
+class tile {
 
-    walkable : null,
-    img : null,
-    position:{
+    walkable = null;
+    img = null;
+    position = {
         x : 0,
         y : 0,
-    },
-    clicks : 0,
-    size:{
-        x:1,
-        y:1,
-    },
-    near_tiles: new Array(),
+    };
+    clicks = 0;
+    size = {
+        x:64,
+        y:64,
+    };
+    near_tiles = new Array();
 
-    transfer_clicks : function() {
+    transfer_clicks = function() {
         this.near_tiles.forEach(function(element){
             if(this.clicks > 500 && this.clicks/2 > 100){
                 element.clicks = this.clicks/2;
@@ -86,28 +88,32 @@ let tile={
             }
                 
         });
-    },
+    };
 
-    Start : function(walkable , position , clicks){
+    Start = function(walkable , position , clicks){
 
         this.walkable = walkable;
         this.position.x = this.size.x * position.x;
         this.position.y = this.size.y * position.y;
         this.clicks = clicks;
+        this.select_kind_of_tile();
 
-    },
-    Update : function(deltaTime){
-        if(clicks == 0){img = tile_grass_img;}//null hay que sustituirlo por link de imagen de baldosa con clicks
-        else{img = tile_clicks_img;}//null hay que sustituirlo por link de imagen de baldosa sin clicks
+    };
+    Update = function(deltaTime){
+        
 
-
-    },
-    Draw : function(ctx) {
-        console.log('hola');
+    };
+    Draw = function(ctx) {
         ctx.drawImage(this.img,this.position.x,this.position.y);
 
 
-     }
+     };
+     select_kind_of_tile = function(){
+        if(this.clicks == 0){this.img = tile_grass_img;}//null hay que sustituirlo por link de imagen de baldosa con clicks
+        else{this.img = tile_clicks_img;}//null hay que sustituirlo por link de imagen de baldosa sin clicks
+
+
+     };
 
 
 }

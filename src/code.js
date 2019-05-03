@@ -119,6 +119,7 @@ function Update (deltaTime){
 
 }
 function Draw (){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     my_world.Draw(ctx);
 
 }
