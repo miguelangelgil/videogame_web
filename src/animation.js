@@ -13,7 +13,7 @@ class Animation {
         x : 0,
         y : 0,
     };
-    n_frames_per_animation = new Array();
+    n_frames_per_animation = null;
     dimensions = {
         x : 0,
         y : 0,
@@ -31,7 +31,7 @@ class Animation {
     };
 
 
-    animate = function(animation_number){
+    animate = function(ctx,animation_number){
         
         if(this.current_animation != animation_number) {
             this.current_frame = 0;
@@ -39,9 +39,11 @@ class Animation {
 
         }
             
-        drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 1, 1);
-
-        current_frame++;
+        ctx.drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 64, 64);
+        if(this.current_frame < n_frames_per_animation)
+            this.current_frame++;
+        else
+            this.current_frame=0;
         this.reposite_frame();
         
         //drawImage(imagen, imgX, imgY, imgAncho, imgAlto, lienzoX, lienzoY, LienzoAncho, LienzoAlto);

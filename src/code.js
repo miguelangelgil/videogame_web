@@ -84,7 +84,7 @@ function Start (){
     my_world.build_world();
     my_player = new Player();
     my_player.Start();
-    //my_player.Start();
+    my_player.Start();
 
     //ctx.drawImage(Tile_clicks_img,0,0);
     //player = new my_player();
@@ -124,6 +124,8 @@ function Update (deltaTime){
 function Draw (){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     my_world.Draw(ctx);
+    //ctx.drawImage(player_img, 0, 0, 55, 55, 0, 0, 64,64);
+    my_player.Draw(ctx);
 
 }
 
