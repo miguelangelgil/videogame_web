@@ -2,8 +2,8 @@
 const PI2 = Math.PI*2;
 var canvas;
 var ASPECT_RATIO = {
-    width : 16,
-    height : 9
+    width : 21,
+    height : 9,
 };
 var ctx;
 
@@ -80,7 +80,7 @@ if (canvas)
 
 function Start (){
     my_world = world;
-    my_world.Start({x:20,y:20});
+    my_world.Start({x:100,y:100},10);
     my_world.build_world();
 
     //ctx.drawImage(tile_clicks_img,0,0);

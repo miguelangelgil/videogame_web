@@ -8,6 +8,8 @@ let world = {
         y:0,
     },
     tile_world: null,
+    amount_of_clicks:null,
+
     build_world: function(){
         this.tile_world = new Array(this.size.x);
         for(var i = 0; i < this.size.x; i++)
@@ -18,7 +20,10 @@ let world = {
             for(this.position_array.y = 0; this.position_array.y < this.size.y; this.position_array.y++){
                 console.log(this.position_array.x + ", " + this.position_array.y);
                 my_tile = new tile();
-                my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},0);
+                if(Math.floor(Math.random() * 100)+1 <= this.amount_of_clicks)
+                    my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},Math.floor(Math.random() * 1000));
+                else
+                    my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},0);
                 this.tile_world[this.position_array.x][this.position_array.y] = my_tile;
             }
         }
@@ -46,10 +51,17 @@ let world = {
                     this.tile_world[this.position_array.x][this.position_array.y].near_tiles[3] = null;
             }   
         }
+        this.tile_world.forEach(function(fila){
+            fila.forEach(function(tile){
+                tile.transfer_clicks();
+            });
+        });
+        //this.tile_world[0][0].transfer_clicks();
     },
-    Start: function(size){
+    Start: function(size, amount_of_clicks){
         this.size.x = size.x;
         this.size.y = size.y;
+        this.amount_of_clicks = amount_of_clicks;
     },
     Draw: function(ctx){
         //this.tile_world[0,0].Draw(ctx);
@@ -80,14 +92,16 @@ class tile {
     near_tiles = new Array();
 
     transfer_clicks = function() {
-        this.near_tiles.forEach(function(element){
-            if(this.clicks > 500 && this.clicks/2 > 100){
-                element.clicks = this.clicks/2;
-                element.transfer_clicks();
+        for(var i = 0;i < this.near_tiles.length;i++){
+            if(this.near_tiles[i] != null){
+                if(this.clicks > 500 && this.clicks/2 > 100)
+                    this.near_tiles[i].clicks = this.clicks/2;
 
-            }
+                this.near_tiles[i].select_kind_of_tile();
                 
-        });
+                //this.near_tiles[i].transfer_clicks();
+            }
+        }
     };
 
     Start = function(walkable , position , clicks){
