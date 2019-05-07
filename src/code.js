@@ -119,6 +119,7 @@ function Loop (){
     Draw();
 }
 function Update (deltaTime){
+    my_player.Update(deltaTime);
 
 }
 function Draw (){

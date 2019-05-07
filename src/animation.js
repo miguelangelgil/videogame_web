@@ -31,16 +31,18 @@ class Animation {
     };
 
 
-    animate = function(ctx,animation_number){
+    animate = function(ctx,position,animation_number,statico){
+        this.position.x = position.x;
+        this.position.y = position.y;
         
-        if(this.current_animation != animation_number) {
-            this.current_frame = 0;
+        if(this.current_animation != animation_number || statico ) {
+            this.current_frame = 1;
             this.current_animation = animation_number;
 
         }
             
         ctx.drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 64, 64);
-        if(this.current_frame < n_frames_per_animation)
+        if(this.current_frame < this.n_frames_per_animation-1)
             this.current_frame++;
         else
             this.current_frame=0;
