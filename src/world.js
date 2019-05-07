@@ -9,11 +9,14 @@ let world = {
     },
     tile_world: null,
     amount_of_clicks:null,
+    world_corners: null,//top izquierda, top derecha , bot izquierda y bot derecha
 
     build_world: function(){
         this.tile_world = new Array(this.size.x);
         for(var i = 0; i < this.size.x; i++)
             this.tile_world[i] = new Array(this.size.y);
+
+        this.world_corners = new Array(4);
         
 
         for(this.position_array.x = 0; this.position_array.x < this.size.x; this.position_array.x++){
@@ -25,6 +28,31 @@ let world = {
                 else
                     my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},0);
                 this.tile_world[this.position_array.x][this.position_array.y] = my_tile;
+                if(this.position_array.x == 0){
+                    if(this.position_array.y == 0){
+                        
+                        this.world_corners[0] = my_tile;
+
+                    }
+                    else if(this.position_array.y == this.size.y-1){
+                        
+                        this.world_corners[1] = my_tile;
+
+                    }
+                }
+                if(this.position_array.x == this.size.x-1){
+                    if(this.position_array.y == 0){
+
+                        this.world_corners[2] = my_tile;
+
+                    }
+                    else if(this.position_array.y == this.size.y-1){
+
+                        this.world_corners[3] = my_tile;
+
+                    }
+
+                }
             }
         }
 
