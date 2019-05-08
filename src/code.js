@@ -22,6 +22,7 @@ var time = 0,
 
 var my_player = null;
 var my_world = null;
+var my_camera = null;
 
 window.requestAnimationFrame = (function (evt) {
     return window.requestAnimationFrame ||
@@ -84,7 +85,8 @@ function Start (){
     my_world.build_world();
     my_player = new Player();
     my_player.Start();
-    my_player.Start();
+    my_camera = new Camera(my_player,my_world);
+    my_camera.Start();
 
     //ctx.drawImage(Tile_clicks_img,0,0);
     //player = new my_player();
@@ -120,6 +122,8 @@ function Loop (){
 }
 function Update (deltaTime){
     my_player.Update(deltaTime);
+    my_world.Update(deltaTime);
+    my_camera.Update(deltaTime);
 
 }
 function Draw (){
@@ -127,6 +131,7 @@ function Draw (){
     my_world.Draw(ctx);
     //ctx.drawImage(player_img, 0, 0, 55, 55, 0, 0, 64,64);
     my_player.Draw(ctx);
+    
 
 }
 

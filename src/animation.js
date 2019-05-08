@@ -20,13 +20,16 @@ class Animation {
     };
     current_frame = 0;
     current_animation = 0;
+    fps = 1;
+    fps_60 = 60;
     
 
-    Start = function(img, n_animatios, n_frames_per_animation, dimensions){
+    Start = function(img, n_animatios, n_frames_per_animation, dimensions,fps){
         this.img = img;
         this.n_animations = n_animatios;
         this.n_frames_per_animation = n_frames_per_animation;
         this.dimensions = dimensions;
+        this.fps = fps;
 
     };
 
@@ -34,14 +37,18 @@ class Animation {
     animate = function(ctx,position,animation_number,statico){
         this.position.x = position.x;
         this.position.y = position.y;
+        if(fps_60 > 0)
+            fps_60--;
+        if(fps_60 <= 0)
+            fps_60 = 60;
+      
         
         if(this.current_animation != animation_number || statico ) {
             this.current_frame = 1;
             this.current_animation = animation_number;
 
         }
-            
-        ctx.drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 64, 64);
+        ctx.drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 64 * my_camera.zoom, 64 * my_camera.zoom);
         if(this.current_frame < this.n_frames_per_animation-1)
             this.current_frame++;
         else

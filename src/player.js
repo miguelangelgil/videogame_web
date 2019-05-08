@@ -13,10 +13,11 @@ class Player {
 
     Start = function() {
         this.img = player_img;
-        this.animate.Start(this.img, 4, 4, {x:50,y:50});
+        this.animate.Start(this.img, 4, 4, {x:50,y:50},4);
 
     };
     Update = function(deltaTime) {
+      
                   
 
         if(input.isKeyPressed(this.controls.up.b1) || input.isKeyPressed(this.controls.up.b2)) {
@@ -43,13 +44,13 @@ class Player {
                 this.position.x += this.speed * deltaTime;
 
         }
-        if(input.isKeyPressed(this.controls.up.b1) || input.isKeyPressed(this.controls.down.b1) || input.isKeyPressed(this.controls.left.b1) || input.isKeyPressed(this.controls.right.b1) || input.isKeyPressed(this.controls.up.b2) || input.isKeyPressed(this.controls.down.b2) || input.isKeyPressed(this.controls.left.b2) || input.isKeyPressed(this.controls.right.b2)){
+        if(input.isKeyPressed(this.controls.up.b1) || input.isKeyPressed(this.controls.down.b1) || input.isKeyPressed(this.controls.left.b1) || input.isKeyPressed(this.controls.right.b1) 
+        || input.isKeyPressed(this.controls.up.b2) || input.isKeyPressed(this.controls.down.b2) || input.isKeyPressed(this.controls.left.b2) || input.isKeyPressed(this.controls.right.b2)){
             this.statico = false;
         }else{
             this.statico = true;
         }
 
-        
 
     };
     Draw = function(ctx) {

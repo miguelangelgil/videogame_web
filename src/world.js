@@ -91,6 +91,14 @@ let world = {
         this.size.y = size.y;
         this.amount_of_clicks = amount_of_clicks;
     },
+    Update: function(deltaTime){
+        this.tile_world.forEach(function(fila){
+            fila.forEach(function(tile){
+                tile.Update(deltaTime);
+            });
+        });
+
+    },
     Draw: function(ctx){
         //this.tile_world[0,0].Draw(ctx);
         for(var x = 0; x < this.size.x; x++){
@@ -117,6 +125,7 @@ class Tile {
         x:64,
         y:64,
     };
+    renderizado = false;
     near_Tiles = new Array();
 
     transfer_clicks = function() {
@@ -142,11 +151,20 @@ class Tile {
 
     };
     Update = function(deltaTime){
+
+        this.position.x += my_camera.offset.x;
+        this.position.y += my_camera.offset.y;
         
 
     };
     Draw = function(ctx) {
-        ctx.drawImage(this.img,this.position.x,this.position.y);
+        if(this.position.x >= 0 && this.position.y >= 0 && this.position.x <= canvas.width && this.position.y <=canvas.height){
+            ctx.drawImage(this.img,this.position.x,this.position.y);
+            this.renderizado = true;
+        }else{
+            this.renderizado = false;
+        }
+            
 
 
      };
