@@ -29,7 +29,7 @@ class Animation {
         this.n_animations = n_animatios;
         this.n_frames_per_animation = n_frames_per_animation;
         this.dimensions = dimensions;
-        this.fps = fps;
+        this.fps = this.fps_60/fps;
 
     };
 
@@ -37,23 +37,34 @@ class Animation {
     animate = function(ctx,position,animation_number,statico){
         this.position.x = position.x;
         this.position.y = position.y;
-        if(fps_60 > 0)
-            fps_60--;
-        if(fps_60 <= 0)
-            fps_60 = 60;
+        if(this.fps_60 > 0)
+            this.fps_60--;
+        if(this.fps_60 <= 0)
+            this.fps_60 = 60;
       
-        
+       
         if(this.current_animation != animation_number || statico ) {
             this.current_frame = 1;
             this.current_animation = animation_number;
 
         }
+        
         ctx.drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 64 * my_camera.zoom, 64 * my_camera.zoom);
-        if(this.current_frame < this.n_frames_per_animation-1)
-            this.current_frame++;
-        else
-            this.current_frame=0;
-        this.reposite_frame();
+        if(this.fps_60 % this.fps == 0){
+
+            if(this.current_frame < this.n_frames_per_animation-1)
+                this.current_frame++;
+            else
+                this.current_frame=0;
+            
+            this.reposite_frame();
+        
+            
+           
+            
+        }
+        
+       
         
         //drawImage(imagen, imgX, imgY, imgAncho, imgAlto, lienzoX, lienzoY, LienzoAncho, LienzoAlto);
     };
