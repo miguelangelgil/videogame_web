@@ -120,6 +120,10 @@ class Tile {
         x : 0,
         y : 0,
     };
+    position_with_offset={
+        x:0,
+        y:0,
+    };
     clicks = 0;
     size = {
         x:64,
@@ -148,18 +152,19 @@ class Tile {
         this.position.y = this.size.y * position.y;
         this.clicks = clicks;
         this.select_kind_of_Tile();
+        
 
     };
     Update = function(deltaTime){
 
-        this.position.x += my_camera.offset.x;
-        this.position.y += my_camera.offset.y;
+        this.position_with_offset.x = this.position.x + my_camera.offset.x;
+        this.position_with_offset.y = this.position.y + my_camera.offset.y;
         
 
     };
     Draw = function(ctx) {
-        if(this.position.x >= 0 && this.position.y >= 0 && this.position.x <= canvas.width && this.position.y <=canvas.height){
-            ctx.drawImage(this.img,this.position.x,this.position.y);
+        if(this.position_with_offset.x >= 0 && this.position_with_offset.y >= 0 && this.position_with_offset.x <= canvas.width && this.position_with_offset.y <=canvas.height){
+            ctx.drawImage(this.img,this.position_with_offset.x,this.position_with_offset.y);
             this.renderizado = true;
         }else{
             this.renderizado = false;

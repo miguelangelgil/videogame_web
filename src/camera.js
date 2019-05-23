@@ -1,39 +1,35 @@
-function Camera (player, world, canvas)
+function Camera (player, world, canvas,limits)
 {
     this.player = player;
     this.world = world;
     this.canvas = canvas;
     this.offset = {x: 0, y: 0};
-    this.limits={
-        x:{
-            top:null,
-            bot:null,
-        },
-        y:{
-            top:null,
-            bot:null,
-        },
-    }
+    this.limits= limits;
     this.zoom = 1;
 }
 
 Camera.prototype.Start = function ()
 {
    
-    if(this.player.position.x > this.limits.x.bot && this.player.position.x < this.limits.x.top || this.limits.x.top==null && this.limits.x.bot)
-        this.offset.x = this.player.position.x;
-
-    if(this.player.position.y > this.limits.y.bot && this.player.position.y < this.limits.y.top || this.limits.y.top==null && this.limits.y.bot)
-        this.offset.y = this.player.position.y;
+  
 }
 
 Camera.prototype.Update = function (deltaTime)
 {
-    if(this.player.position.x >= this.canvas.width/2){ this.offset.x -= 1}
-    if(this.player.position.x > this.limits.x.bot && this.player.position.x < this.limits.x.top || this.limits.x.top==null && this.limits.x.bot)
-        this.offset.x = this.player.position.x;
-
-    if(this.player.position.y > this.limits.y.bot && this.player.position.y < this.limits.y.top || this.limits.y.top==null && this.limits.y.bot)
-        this.offset.y = this.player.position.y;
-    
+    if(this.player.position.x > this.canvas.width/2 + this.limits.x && this.world.world_corners[2].position_with_offset.x >= this.canvas.width){
+        this.offset.x -= this.player.speed/2;
+        this.player.position.x += this.player.speed * deltaTime;
+    }
+    if(this.player.position.x < this.canvas.width/2 - this.limits.x && this.world.world_corners[0].position_with_offset.x <= 0){
+        this.offset.x += this.player.speed;
+        this.player.position.x -= this.player.speed * deltaTime;
+    }
+    if(this.player.position.y > this.canvas.height/2 + this.limits.y && this.world.world_corners[1].position_with_offset.y >= this.canvas.height){
+        this.offset.y -= this.player.speed;
+        this.player.position.y += this.player.speed * deltaTime;
+    }
+    if(this.player.position.y < this.canvas.height/2 - this.limits.y && this.world.world_corners[0].position_with_offset.y <= 0){
+        this.offset.y += 1;
+        this.player.position.y -= this.player.speed * deltaTime;
+    }
 }
