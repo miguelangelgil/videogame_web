@@ -13,7 +13,7 @@ class Player {
 
     Start = function() {
         this.img = player_img;
-        this.animate.Start(this.img, 4, 4, {x:50,y:50},8);
+        this.animate.Start(this.img, 4, 4, {x:50,y:50},12);
 
     };
     Update = function(deltaTime) {

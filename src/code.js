@@ -85,7 +85,7 @@ function Start (){
     my_world.build_world();
     my_player = new Player();
     my_player.Start();
-    my_camera = new Camera(my_player,my_world);
+    my_camera = new Camera(my_player,my_world,canvas);
     my_camera.Start();
 
     //ctx.drawImage(Tile_clicks_img,0,0);

@@ -1,7 +1,8 @@
-function Camera (player, world)
+function Camera (player, world, canvas)
 {
     this.player = player;
     this.world = world;
+    this.canvas = canvas;
     this.offset = {x: 0, y: 0};
     this.limits={
         x:{
@@ -18,6 +19,7 @@ function Camera (player, world)
 
 Camera.prototype.Start = function ()
 {
+   
     if(this.player.position.x > this.limits.x.bot && this.player.position.x < this.limits.x.top || this.limits.x.top==null && this.limits.x.bot)
         this.offset.x = this.player.position.x;
 
@@ -27,7 +29,7 @@ Camera.prototype.Start = function ()
 
 Camera.prototype.Update = function (deltaTime)
 {
-
+    if(this.player.position.x >= this.canvas.width/2){ this.offset.x -= 1}
     if(this.player.position.x > this.limits.x.bot && this.player.position.x < this.limits.x.top || this.limits.x.top==null && this.limits.x.bot)
         this.offset.x = this.player.position.x;
 
