@@ -1,16 +1,23 @@
 let world = {
+    //dimensiones del mundo
     size:{
         x:0,
         y:0,
     },
+    //lleva la cuenta en los bucles de generacion del mundo
     position_array:{
         x:0,
         y:0,
     },
+    //array donde se guarda la referencia de todas las baldosas
     tile_world: null,
+    //porcentaje de bloiques de clicks
     amount_of_clicks:null,
-    world_corners: null,//top izquierda, top derecha , bot izquierda y bot derecha
-
+    //cantidad de agua
+    amount_of_water:null,
+    //top izquierda, bot izquierda , top izquierda y bot izquierda
+    world_corners: null,
+    //construlle el mundo
     build_world: function(){
         this.tile_world = new Array(this.size.x);
         for(var i = 0; i < this.size.x; i++)
@@ -113,23 +120,30 @@ let world = {
 
 
 class Tile {
-
+    //determina si esa baldosa se puede caminar por encima
     walkable = null;
+    //imagen de la baldosa
     img = null;
+    //posicion de la baldosa
     position = {
         x : 0,
         y : 0,
     };
+    //posicion de la baldosa respecto a la camara
     position_with_offset={
         x:0,
         y:0,
     };
+    //cantidad de clicks
     clicks = 0;
+    //dimensiones de la baldosa
     size = {
         x:64,
         y:64,
     };
+    //determina si hay que renderizar la baldosa si o no
     renderizado = false;
+    //guarda la referencia de las 4 baldosas colindantes
     near_Tiles = new Array();
 
     transfer_clicks = function() {
@@ -163,7 +177,7 @@ class Tile {
 
     };
     Draw = function(ctx) {
-        if(this.position_with_offset.x >= 0 && this.position_with_offset.y >= 0 && this.position_with_offset.x <= canvas.width && this.position_with_offset.y <=canvas.height){
+        if(this.position_with_offset.x >= (-this.size.x) && this.position_with_offset.y >= (-this.size.y) && this.position_with_offset.x <= canvas.width && this.position_with_offset.y <=canvas.height){
             ctx.drawImage(this.img,this.position_with_offset.x,this.position_with_offset.y);
             this.renderizado = true;
         }else{
