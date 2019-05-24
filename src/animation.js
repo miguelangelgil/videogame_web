@@ -33,6 +33,13 @@ class Animation {
 
     };
 
+    print_a_frame = function(ctx,world_position,sprite_position){
+        this.position.x = world_position.x;
+        this.position.y = world_position.y;
+        this.current_animation = sprite_position.x;
+        this.current_frame = sprite_position.y;
+        ctx.drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 64 * my_camera.zoom, 64 * my_camera.zoom);
+    }
 
     animate = function(ctx,position,animation_number,statico){
         this.position.x = position.x;

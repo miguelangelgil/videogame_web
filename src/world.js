@@ -145,6 +145,12 @@ class Tile {
     renderizado = false;
     //guarda la referencia de las 4 baldosas colindantes
     near_Tiles = new Array();
+    animator = null;
+    kind_of_tile=0;
+    tile_position={
+        x:0,
+        y:0,
+    };
 
     transfer_clicks = function() {
         for(var i = 0;i < this.near_Tiles.length;i++){
@@ -165,7 +171,10 @@ class Tile {
         this.position.x = this.size.x * position.x;
         this.position.y = this.size.y * position.y;
         this.clicks = clicks;
+        this.img = Tiles_world_img;
         this.select_kind_of_Tile();
+        this.animator = new Animation();
+        this.animator.Start(this.img, 57, 31, {x:15,y:15},1);
         
 
     };
@@ -188,6 +197,9 @@ class Tile {
 
      };
      select_kind_of_Tile = function(){
+         if(this.clicks == 0){
+
+         }
         if(this.clicks == 0){this.img = Tile_grass_img;}//null hay que sustituirlo por link de imagen de baldosa con clicks
         else{this.img = Tile_clicks_img;}//null hay que sustituirlo por link de imagen de baldosa sin clicks
 
