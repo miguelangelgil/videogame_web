@@ -41,7 +41,7 @@ class Animation {
         this.space_between_frames = space_between_frames;
         this.position_in_lienzo.x = this.dimensions.x * this.current_animation + this.space_between_frames.x * this.current_animation;
         this.position_in_lienzo.y = this.dimensions.y * this.current_frame + this.space_between_frames.y * this.current_frame;
-        ctx.drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 64 * my_camera.zoom, 64 * my_camera.zoom);
+        ctx.drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 15 * my_camera.zoom, 15 * my_camera.zoom);
     }
 
     animate = function(ctx,position,animation_number,statico){
@@ -59,7 +59,7 @@ class Animation {
 
         }
         
-        ctx.drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 64 * my_camera.zoom, 64 * my_camera.zoom);
+        ctx.drawImage(this.img, this.position_in_lienzo.x, this.position_in_lienzo.y, this.dimensions.x, this.dimensions.y, this.position.x, this.position.y, 15 * my_camera.zoom, 15 * my_camera.zoom);
         if(this.fps_60 % this.fps == 0){
 
             if(this.current_frame < this.n_frames_per_animation-1)

@@ -5,7 +5,7 @@ function Camera (player, world, canvas,limits)
     this.canvas = canvas;
     this.offset = {x: 0, y: 0};
     this.limits= limits;
-    this.zoom = 1;
+    this.zoom = 3;
 }
 
 Camera.prototype.Start = function ()

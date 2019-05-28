@@ -15,6 +15,7 @@ let world = {
     amount_of_clicks:null,
     //cantidad de agua
     amount_of_water:null,
+    amount_of_green:null,
     //top izquierda, bot izquierda , top izquierda y bot izquierda
     world_corners: null,
     //construlle el mundo
@@ -30,10 +31,22 @@ let world = {
             for(this.position_array.y = 0; this.position_array.y < this.size.y; this.position_array.y++){
                 console.log(this.position_array.x + ", " + this.position_array.y);
                 my_tile = new Tile();
-                if(Math.floor(Math.random() * 100)+1 <= this.amount_of_clicks)
-                    my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},Math.floor(Math.random() * 1000));
-                else
-                    my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},0);
+                if(Math.floor(Math.random() * 100)+1 <= this.amount_of_water)
+                    my_tile.Start(false,{x:this.position_array.x,y:this.position_array.y},0,0);
+                else{
+                    if(Math.floor(Math.random() * 100)+1 <= this.amount_of_clicks)
+                        my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},4,Math.floor(Math.random() * 1000)+1);
+                    else
+                    {
+                        if(Math.floor(Math.random() * 100)+1 <= this.amount_of_green)
+                            my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},2,0);
+                        else
+                            my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},0);
+
+                    }
+
+                }
+               
                 this.tile_world[this.position_array.x][this.position_array.y] = my_tile;
                 if(this.position_array.x == 0){
                     if(this.position_array.y == 0){
@@ -88,15 +101,27 @@ let world = {
         }
         this.tile_world.forEach(function(fila){
             fila.forEach(function(Tile){
+                Tile.transfer_water();
+            });
+        });
+        this.tile_world.forEach(function(fila){
+            fila.forEach(function(Tile){
+                Tile.transfer_green();
+            });
+        });
+        this.tile_world.forEach(function(fila){
+            fila.forEach(function(Tile){
                 Tile.transfer_clicks();
             });
         });
         //this.tile_world[0][0].transfer_clicks();
     },
-    Start: function(size, amount_of_clicks){
+    Start: function(size, amount_of_clicks,amount_of_water,amount_of_green){
         this.size.x = size.x;
         this.size.y = size.y;
         this.amount_of_clicks = amount_of_clicks;
+        this.amount_of_green = amount_of_green;
+        this.amount_of_water = amount_of_water;
     },
     Update: function(deltaTime){
         this.tile_world.forEach(function(fila){
@@ -138,15 +163,15 @@ class Tile {
     clicks = 0;
     //dimensiones de la baldosa
     size = {
-        x:64,
-        y:64,
+        x:15,
+        y:15,
     };
     //determina si hay que renderizar la baldosa si o no
     renderizado = false;
     //guarda la referencia de las 4 baldosas colindantes
     near_Tiles = new Array();
     animator = null;
-    //0 = agua, 1 = tierra , 2 = orilla
+    //0 = agua, 1 = tierra ,2 = cespez, 3 = orilla, 4 =clicks
     kind_of_tile=1;
     tile_position={
         x:0,
@@ -165,12 +190,41 @@ class Tile {
             }
         }
     };
+    transfer_green = function(){
+        for(var i = 0;i < this.near_Tiles.length;i++){
+            if(this.near_Tiles[i] != null){
+                if(this.kind_of_tile == 2){
+                    if(Math.floor(Math.random() * 100) < 40){
+                        this.near_Tiles[i].kind_of_tile=2;
+                        this.near_Tiles[i].select_kind_of_Tile;
+                    }
+                        
+                }
+            }
+        }
 
-    Start = function(walkable , position , clicks){
+    };
+    transfer_water = function(){
+        for(var i = 0;i < this.near_Tiles.length;i++){
+            if(this.near_Tiles[i] != null){
+                if(this.kind_of_tile == 0){
+                    if(Math.floor(Math.random() * 100) < 20){
+                        this.near_Tiles[i].kind_of_tile=0;
+                        this.near_Tiles[i].select_kind_of_Tile;
+                    }
+                        
+                }
+            }
+        }
+
+    };
+
+    Start = function(walkable , position , kind_of_tile,clicks){
 
         this.walkable = walkable;
-        this.position.x = this.size.x * position.x;
-        this.position.y = this.size.y * position.y;
+        this.position.x = this.size.x * position.x * my_camera.zoom;
+        this.position.y = this.size.y * position.y * my_camera.zoom;
+        this.kind_of_tile = kind_of_tile;
         this.clicks = clicks;
         this.img = Tiles_world_img;
         this.select_kind_of_Tile();
@@ -187,13 +241,9 @@ class Tile {
 
     };
     Draw = function(ctx) {
-        if(this.position_with_offset.x >= (-this.size.x) && this.position_with_offset.y >= (-this.size.y) && this.position_with_offset.x <= canvas.width && this.position_with_offset.y <=canvas.height){
-            if(this.clicks == 0)
-                this.animator.print_a_frame(ctx,{x:this.position_with_offset.x,y:this.position_with_offset.y},this.tile_position,{x:2,y:2});
+        if(this.position_with_offset.x >= (-this.size.x * my_camera.zoom) && this.position_with_offset.y >= (-this.size.y * my_camera.zoom) && this.position_with_offset.x <= canvas.width && this.position_with_offset.y <=canvas.height){
+            this.animator.print_a_frame(ctx,{x:this.position_with_offset.x,y:this.position_with_offset.y},this.tile_position,{x:2,y:2});
                 //ctx.drawImage(this.img, 85, 0, 15, 15, this.position_with_offset.x,this.position_with_offset.y, 64 * my_camera.zoom, 64 * my_camera.zoom);
-            else
-                ctx.drawImage(this.img,this.position_with_offset.x,this.position_with_offset.y);
-
             this.renderizado = true;
         }else{
             this.renderizado = false;
@@ -217,36 +267,53 @@ class Tile {
                  };
              }else if(this.kind_of_tile == 1)
              {
-                var random_tile_of_kind = Math.floor(Math.random() * 7);
+                var random_tile_of_kind = Math.floor(Math.random() * 2);
                 switch(random_tile_of_kind){
-                    //CESPEZ
-                    case 0:
-                       this.tile_position = {x:5,y:0}; 
-                    break;
-                    case 1:
-                       this.tile_position = {x:5,y:1};
-                    break;
                     //TIERRA
-                    case 2:
+                    case 0:
                         this.tile_position = {x:6,y:0};
                     break;
-                    case 3:
+                    case 1:
                         this.tile_position = {x:6,y:1};
                     break;
-                    //FLORES
-                    case 4:
-                        this.tile_position = {x:3,y:7};
-                    break;
-                    case 5:
-                        this.tile_position = {x:3,y:10};
-                    break;
-                    case 6:
-                        this.tile_position = {x:3,y:13};
-                    break;
                 };
-            }
+            }else if(this.kind_of_tile == 2)
+            {
+               var random_tile_of_kind = Math.floor(Math.random() * 5);
+               switch(random_tile_of_kind){
+                   //CESPEZ
+                   case 0:
+                      this.tile_position = {x:5,y:0}; 
+                   break;
+                   case 1:
+                      this.tile_position = {x:5,y:1};
+                   break;
+                   //FLORES
+                   case 2:
+                       this.tile_position = {x:3,y:7};
+                   break;
+                   case 3:
+                       this.tile_position = {x:3,y:10};
+                   break;
+                   case 4:
+                       this.tile_position = {x:3,y:13};
+                   break;
+               };
+           }
 
-         }else{this.img = Tile_clicks_img;}//null hay que sustituirlo por link de imagen de baldosa sin clicks
+         }else if(this.kind_of_tile == 4)
+        {
+            if(this.clicks > 1000)
+            {
+                this.tile_position={x:11,y:14};
+            }else if(this.clicks > 500)
+            {
+                this.tile_position={x:11,y:11};
+            }else
+            {
+                this.tile_position={x:11,y:8};
+            }
+        }
 
 
      };
