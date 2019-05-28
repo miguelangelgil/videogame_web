@@ -83,7 +83,7 @@ function Start (){
     my_world = world;
     my_player = new Player();
     my_player.Start();
-    my_world.Start({x:100,y:100},5,0,30);
+    my_world.Start({x:100,y:100},5,15,80);
     my_camera = new Camera(my_player,my_world,canvas,{x:20,y:20});
     my_camera.Start();
     my_world.build_world();

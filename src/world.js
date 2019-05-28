@@ -15,6 +15,7 @@ let world = {
     amount_of_clicks:null,
     //cantidad de agua
     amount_of_water:null,
+    //cantidad de verde
     amount_of_green:null,
     //top izquierda, bot izquierda , top izquierda y bot izquierda
     world_corners: null,
@@ -183,6 +184,7 @@ class Tile {
             if(this.near_Tiles[i] != null){
                 if(this.clicks > 500 && this.clicks/2 > 100)
                     this.near_Tiles[i].clicks = this.clicks/2;
+                    this.near_Tiles[i].walkable = true;
 
                 this.near_Tiles[i].select_kind_of_Tile();
                 
@@ -196,6 +198,7 @@ class Tile {
                 if(this.kind_of_tile == 2){
                     if(Math.floor(Math.random() * 100) < 40){
                         this.near_Tiles[i].kind_of_tile=2;
+                        this.near_Tiles[i].walkable = true;
                         this.near_Tiles[i].select_kind_of_Tile;
                     }
                         
@@ -210,6 +213,7 @@ class Tile {
                 if(this.kind_of_tile == 0){
                     if(Math.floor(Math.random() * 100) < 20){
                         this.near_Tiles[i].kind_of_tile=0;
+                        this.near_Tiles[i].walkable = false;
                         this.near_Tiles[i].select_kind_of_Tile;
                     }
                         
@@ -218,6 +222,7 @@ class Tile {
         }
 
     };
+    
 
     Start = function(walkable , position , kind_of_tile,clicks){
 
@@ -279,7 +284,7 @@ class Tile {
                 };
             }else if(this.kind_of_tile == 2)
             {
-               var random_tile_of_kind = Math.floor(Math.random() * 5);
+               var random_tile_of_kind = Math.floor(Math.random() * 11);
                switch(random_tile_of_kind){
                    //CESPEZ
                    case 0:
@@ -288,14 +293,32 @@ class Tile {
                    case 1:
                       this.tile_position = {x:5,y:1};
                    break;
-                   //FLORES
                    case 2:
-                       this.tile_position = {x:3,y:7};
+                      this.tile_position = {x:5,y:0}; 
                    break;
                    case 3:
-                       this.tile_position = {x:3,y:10};
+                      this.tile_position = {x:5,y:1};
                    break;
                    case 4:
+                      this.tile_position = {x:5,y:0}; 
+                   break;
+                   case 5:
+                      this.tile_position = {x:5,y:1};
+                   break;
+                   case 6:
+                      this.tile_position = {x:5,y:0}; 
+                   break;
+                   case 7:
+                      this.tile_position = {x:5,y:1};
+                   break;
+                   //FLORES
+                   case 8:
+                       this.tile_position = {x:3,y:7};
+                   break;
+                   case 9:
+                       this.tile_position = {x:3,y:10};
+                   break;
+                   case 10:
                        this.tile_position = {x:3,y:13};
                    break;
                };
