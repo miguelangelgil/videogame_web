@@ -66,8 +66,8 @@ class Player {
 
         if(!this.statico)
         {
-            this.tile_actual.x = this.position.x / 15;
-            this.tile_actual.y = this.position.y / 15;
+            this.tile_actual.x = this.position.x / 45;
+            this.tile_actual.y = this.position.y / 45;
         }
 
 

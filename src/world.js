@@ -199,7 +199,7 @@ class Tile {
                     if(Math.floor(Math.random() * 100) < 40){
                         this.near_Tiles[i].kind_of_tile=2;
                         this.near_Tiles[i].walkable = true;
-                        this.near_Tiles[i].select_kind_of_Tile;
+                        this.near_Tiles[i].select_kind_of_Tile();
                     }
                         
                 }
@@ -214,7 +214,7 @@ class Tile {
                     if(Math.floor(Math.random() * 100) < 20){
                         this.near_Tiles[i].kind_of_tile=0;
                         this.near_Tiles[i].walkable = false;
-                        this.near_Tiles[i].select_kind_of_Tile;
+                        this.near_Tiles[i].select_kind_of_Tile();
                     }
                         
                 }
@@ -232,7 +232,7 @@ class Tile {
         this.kind_of_tile = kind_of_tile;
         this.clicks = clicks;
         this.img = Tiles_world_img;
-        this.select_kind_of_Tile();
+        //this.select_kind_of_Tile();
         this.animator = new Animation();
         this.animator.Start(this.img, 57, 31, {x:15,y:15},1);
         
@@ -242,6 +242,10 @@ class Tile {
 
         this.position_with_offset.x = this.position.x + my_camera.offset.x;
         this.position_with_offset.y = this.position.y + my_camera.offset.y;
+        if(this.kind_of_tile==0)
+            this.walkable = false;
+        else
+            this.walkable = true;
         
 
     };
