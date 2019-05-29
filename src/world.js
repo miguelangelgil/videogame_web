@@ -31,24 +31,25 @@ let world = {
         for(this.position_array.x = 0; this.position_array.x < this.size.x; this.position_array.x++){
             for(this.position_array.y = 0; this.position_array.y < this.size.y; this.position_array.y++){
                 console.log(this.position_array.x + ", " + this.position_array.y);
-                my_tile = new Tile();
+                let my_tile;
                 if(Math.floor(Math.random() * 100)+1 <= this.amount_of_water)
-                    my_tile.Start(false,{x:this.position_array.x,y:this.position_array.y},0,0);
+                    my_tile = new Tile({x:this.position_array.x,y:this.position_array.y},0,0);
                 else{
                     if(Math.floor(Math.random() * 100)+1 <= this.amount_of_clicks)
-                        my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},4,Math.floor(Math.random() * 1000)+1);
+                        my_tile = new Tile({x:this.position_array.x,y:this.position_array.y},4,Math.floor(Math.random() * 1000)+1);
                     else
                     {
                         if(Math.floor(Math.random() * 100)+1 <= this.amount_of_green)
-                            my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},2,0);
+                            my_tile = new Tile({x:this.position_array.x,y:this.position_array.y},2,0);
                         else
-                            my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},3,0);
+                            my_tile = new Tile({x:this.position_array.x,y:this.position_array.y},1,0);
 
                     }
 
                 }
                
                 this.tile_world[this.position_array.x][this.position_array.y] = my_tile;
+                //aqui guardo las esquinas del mundo para tener la referencias de las cordenadas limites
                 if(this.position_array.x == 0){
                     if(this.position_array.y == 0){
                         
@@ -76,7 +77,7 @@ let world = {
                 }
             }
         }
-
+        //aquí guardo la referencia de las baldosas cercanas a cada baldosa
         for(this.position_array.x=0; this.position_array.x < this.size.x; this.position_array.x++){
             for(this.position_array.y=0;this.position_array.y < this.size.y; this.position_array.y++){
                 if(this.position_array.x != 0)
@@ -100,6 +101,7 @@ let world = {
                     this.tile_world[this.position_array.x][this.position_array.y].near_Tiles[3] = null;
             }   
         }
+        /*
         this.tile_world.forEach(function(fila){
             fila.forEach(function(Tile){
                 Tile.transfer_water();
@@ -116,6 +118,7 @@ let world = {
             });
         });
         //this.tile_world[0][0].transfer_clicks();
+        */
     },
     Start: function(size, amount_of_clicks,amount_of_water,amount_of_green){
         this.size.x = size.x;
@@ -133,13 +136,12 @@ let world = {
 
     },
     Draw: function(ctx){
-        //this.tile_world[0,0].Draw(ctx);
-        for(var x = 0; x < this.size.x; x++){
-            for(var y = 0; y < this.size.y; y++){
-                
-                this.tile_world[x][y].Draw(ctx);
-            }
-        }
+        this.tile_world.forEach(function(fila){
+            fila.forEach(function(tile){
+                tile.Draw(ctx);
+            });
+        });
+       
     },
     
 }
@@ -189,9 +191,6 @@ class Tile {
                     this.near_Tiles[i].select_kind_of_Tile();
 
                 }
-                    
-                
-                //this.near_Tiles[i].transfer_clicks();
             }
         }
     };
@@ -230,16 +229,15 @@ class Tile {
 
     };
     
-
-    Start = function(walkable , position , kind_of_tile,clicks){
-
-        this.walkable = walkable;
+    //constructor de la clase
+    constructor(position , kind_of_tile,clicks){
+        this.walkable = kind_of_tile != 0 ? true : false;
         this.position.x = this.size.x * position.x * my_camera.zoom;
         this.position.y = this.size.y * position.y * my_camera.zoom;
         this.kind_of_tile = kind_of_tile;
         this.clicks = clicks;
         this.img = Tiles_world_img;
-        //this.select_kind_of_Tile();
+        this.select_kind_of_Tile();
         this.animator = new Animation();
         this.animator.Start(this.img, 57, 31, {x:15,y:15},1);
         
@@ -249,15 +247,6 @@ class Tile {
 
         this.position_with_offset.x = this.position.x + my_camera.offset.x;
         this.position_with_offset.y = this.position.y + my_camera.offset.y;
-        if((this.tile_position.x == 0 || this.tile_position.x == 1) && this.tile_position.y == 0){
-            this.walkable = false;
-            this.kind_of_tile = 0;
-        }
-           
-        else {
-            this.walkable = true;
-
-        }
         
 
     };

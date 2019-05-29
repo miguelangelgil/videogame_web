@@ -72,8 +72,10 @@ if (canvas)
         
         //las funciones de carga de assets son asincronicas por lo que lo que nos devuelve es una promesa
         if(load_all_img().then((load)=>load==true)){
+            setTimeout(function(){
             Start();
             Loop();
+            }, 5000);
         }
         
     }
