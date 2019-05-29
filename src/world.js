@@ -42,7 +42,7 @@ let world = {
                         if(Math.floor(Math.random() * 100)+1 <= this.amount_of_green)
                             my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},2,0);
                         else
-                            my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},0);
+                            my_tile.Start(true,{x:this.position_array.x,y:this.position_array.y},3,0);
 
                     }
 
@@ -182,11 +182,14 @@ class Tile {
     transfer_clicks = function() {
         for(var i = 0;i < this.near_Tiles.length;i++){
             if(this.near_Tiles[i] != null){
-                if(this.clicks > 500 && this.clicks/2 > 100)
+                if(this.clicks > 500 && this.clicks/2 > 100){
                     this.near_Tiles[i].clicks = this.clicks/2;
                     this.near_Tiles[i].walkable = true;
+                    this.near_Tiles[i].kind_of_tile=4;
+                    this.near_Tiles[i].select_kind_of_Tile();
 
-                this.near_Tiles[i].select_kind_of_Tile();
+                }
+                    
                 
                 //this.near_Tiles[i].transfer_clicks();
             }
@@ -196,11 +199,15 @@ class Tile {
         for(var i = 0;i < this.near_Tiles.length;i++){
             if(this.near_Tiles[i] != null){
                 if(this.kind_of_tile == 2){
-                    if(Math.floor(Math.random() * 100) < 40){
-                        this.near_Tiles[i].kind_of_tile=2;
-                        this.near_Tiles[i].walkable = true;
-                        this.near_Tiles[i].select_kind_of_Tile();
+                    if(this.near_Tiles[i] != 0){
+                        if(Math.floor(Math.random() * 100) < 40){
+                            this.near_Tiles[i].kind_of_tile=2;
+                            this.near_Tiles[i].walkable = true;
+                            this.near_Tiles[i].select_kind_of_Tile();
+                        }
+
                     }
+                   
                         
                 }
             }
@@ -242,10 +249,15 @@ class Tile {
 
         this.position_with_offset.x = this.position.x + my_camera.offset.x;
         this.position_with_offset.y = this.position.y + my_camera.offset.y;
-        if(this.kind_of_tile==0)
+        if((this.tile_position.x == 0 || this.tile_position.x == 1) && this.tile_position.y == 0){
             this.walkable = false;
-        else
+            this.kind_of_tile = 0;
+        }
+           
+        else {
             this.walkable = true;
+
+        }
         
 
     };

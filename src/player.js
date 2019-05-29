@@ -52,8 +52,21 @@ class Player {
             
 
         }else{
-            my_world.tile_world[Math.trunc(this.tile_actual.x)][Math.trunc(this.tile_actual.y)].kind_of_tile=1;
-            my_world.tile_world[Math.trunc(this.tile_actual.x)][Math.trunc(this.tile_actual.y)].select_kind_of_Tile();
+            if(!this.statico)
+                switch(this.n_animation){
+                    case 0:
+                        this.position.y -= this.speed * deltaTime;
+                    break;
+                    case 1:
+                        this.position.x += this.speed * deltaTime;
+                    break;
+                    case 2:
+                        this.position.y += this.speed * deltaTime; 
+                    break;
+                    case 3:
+                        this.position.x -= this.speed * deltaTime;
+                    break;
+                }
 
         }
         if(input.isKeyPressed(this.controls.up.b1) || input.isKeyPressed(this.controls.down.b1) || input.isKeyPressed(this.controls.left.b1) || input.isKeyPressed(this.controls.right.b1) 
@@ -66,8 +79,8 @@ class Player {
 
         if(!this.statico)
         {
-            this.tile_actual.x = this.position.x / 45;
-            this.tile_actual.y = this.position.y / 45;
+            this.tile_actual.x = this.position.x  / 45;
+            this.tile_actual.y = this.position.y  / 45;
         }
 
 
