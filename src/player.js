@@ -47,11 +47,11 @@ class Player {
     };
     Update = function(deltaTime) {
       
-    /*          
+             
         my_world.tile_world[Math.trunc(this.tile_actual.x)][Math.trunc(this.tile_actual.y)].tile_position = {x:5,y:2};
         my_world.tile_world[Math.trunc(this.tile_actual.x)][Math.trunc(this.tile_actual.y)].kind_of_tile=7;
         my_world.tile_world[Math.trunc(this.tile_actual.x)][Math.trunc(this.tile_actual.y)].select_kind_of_Tile();
-        */
+        
 
         if(my_world.tile_world[Math.trunc(this.tile_actual.x)][Math.trunc(this.tile_actual.y)].walkable){
             if(input.isKeyPressed(this.controls.up.b1) || input.isKeyPressed(this.controls.up.b2)) {

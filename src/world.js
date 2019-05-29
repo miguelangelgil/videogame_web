@@ -176,10 +176,17 @@ class Tile {
     animator = null;
     //0 = agua, 1 = tierra ,2 = cespez, 3 = orilla, 4 =clicks
     kind_of_tile=1;
+    //posicion del tile en la img
     tile_position={
         x:0,
         y:0,
     };
+    collider = {
+        x:0,
+        y:0,
+        w:0,
+        h:0,
+    }
 
     transfer_clicks = function() {
         for(var i = 0;i < this.near_Tiles.length;i++){
@@ -240,6 +247,8 @@ class Tile {
         this.select_kind_of_Tile();
         this.animator = new Animation();
         this.animator.Start(this.img, 57, 31, {x:15,y:15},1);
+        this.collider.w = 45;
+        this.collider.h = 45;
         
 
     };
@@ -247,6 +256,9 @@ class Tile {
 
         this.position_with_offset.x = this.position.x + my_camera.offset.x;
         this.position_with_offset.y = this.position.y + my_camera.offset.y;
+        
+        this.collider.x = this.position.x + 5;
+        this.collider.y = this.position.y + 5;
         
 
     };
@@ -258,6 +270,10 @@ class Tile {
         }else{
             this.renderizado = false;
         }
+        /*
+        ctx.fillStyle='rgba(255,0,0,0.5)';
+        ctx.fillRect(this.collider.x,this.collider.y,this.collider.w,this.collider.h);
+        */
             
 
 
