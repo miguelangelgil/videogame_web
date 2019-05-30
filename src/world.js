@@ -186,7 +186,8 @@ class Tile {
         y:0,
         w:0,
         h:0,
-    }
+    };
+    up_hitbox = false;
 
     transfer_clicks = function() {
         for(var i = 0;i < this.near_Tiles.length;i++){
@@ -271,9 +272,13 @@ class Tile {
             this.renderizado = false;
         }
         /*
-        ctx.fillStyle='rgba(255,0,0,0.5)';
+        if(this.up_hitbox)
+            ctx.fillStyle='rgba(0,255,0,0.5)';
+        else
+            ctx.fillStyle='rgba(255,0,0,0.5)';
         ctx.fillRect(this.collider.x,this.collider.y,this.collider.w,this.collider.h);
         */
+        
             
 
 

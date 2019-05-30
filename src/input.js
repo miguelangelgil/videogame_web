@@ -5,6 +5,7 @@ const KEY_LEFT  = 37, KEY_A = 65;
 const KEY_UP    = 38, KEY_W = 87;
 const KEY_RIGHT = 39, KEY_D = 68;
 const KEY_DOWN  = 40, KEY_S = 83;
+const KEY_E = 69; 
 const KEY_PAUSE = 19;
 const KEY_SPACE = 32;
 const KEY_SCAPE = 27;
@@ -65,7 +66,7 @@ var input = {
 function SetupKeyboardEvents ()
 {
     AddEvent(document, "keydown", function (e) {
-        //console.log(e.keyCode);
+        console.log(e.keyCode);
         input.keyboard.keydown[e.keyCode] = true;
         input.keyboard.keypressed[e.keyCode] = true;
     } );
