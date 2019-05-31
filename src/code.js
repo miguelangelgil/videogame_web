@@ -43,6 +43,7 @@ if (canvas)
     {
         
         SetupKeyboardEvents();
+        SetupMouseEvents();
         //cargo los assets del juego
         //do{full_load = load_Tiles_img();}while(!full_load);
         //do{full_load = load_player_img();}while(!full_load);

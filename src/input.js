@@ -66,7 +66,7 @@ var input = {
 function SetupKeyboardEvents ()
 {
     AddEvent(document, "keydown", function (e) {
-        console.log(e.keyCode);
+        //console.log(e.keyCode);
         input.keyboard.keydown[e.keyCode] = true;
         input.keyboard.keypressed[e.keyCode] = true;
     } );

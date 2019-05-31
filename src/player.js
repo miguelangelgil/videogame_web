@@ -148,6 +148,16 @@ class Player {
                 }
 
         }
+        if(input.mouse.pressed && PointInsideCircle(this.influence_area.c,this.influence_area.r,input.mouse)){
+            console.log("he pulsado dentro del circulo");
+            if(my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks > 0){
+                my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks -=1;
+                this.clicks++; 
+            }
+
+        }
+        
+
         this.collider.x = this.position.x + 5;
         this.collider.y = this.position.y + 5;
         this.influence_area.c.x = this.position.x;

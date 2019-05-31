@@ -2,12 +2,10 @@
 
 function PointInsideCircle (circlePosition, circleRadius2, point)
 {
-    // cuadrado de distancia
-    var pointToCircleDistance2 =
+    var pointToCircleDistance2 = Math.sqrt(
     ((point.x - circlePosition.x) * (point.x - circlePosition.x)) +
-    ((point.y - circlePosition.y) * (point.y - circlePosition.y));
-    
-    return (pointToCircleDistance2 < circleRadius2);
+    ((point.y - circlePosition.y) * (point.y - circlePosition.y)));
+    return (pointToCircleDistance2 <= circleRadius2);
 }
 
 function CheckCollisionRect (point, rectangle)
