@@ -1,4 +1,4 @@
-class hand{
+class Hand{
     time_to_make_work=5;
     works={
         mine:true,
@@ -9,7 +9,7 @@ class hand{
 
 }
 
-class pick{
+class Pick{
     time_to_make_work = 2;
     works={
         mine:true,
@@ -20,7 +20,7 @@ class pick{
 
 }
 
-class hammer{
+class Hammer{
     time_to_make_work = 2;
     works={
         mine:false,

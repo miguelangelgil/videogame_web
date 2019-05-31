@@ -33,6 +33,8 @@ class Player {
     animate = new Animation();
     //controles del player
     controls = new Controls();
+    //inventario del jugador
+    inventory = new Inventory({x:(canvas.width/2) - 400,y:canvas.height - 50,w:800,h:50},{x:(canvas.width/2)+100, y:(canvas.height/2) - 80,w:200,h:150});
     //la mitad de la imagen del player
     half_size_img ={
         x : null,
@@ -148,13 +150,18 @@ class Player {
                 }
 
         }
+        //control con el raton
         if(input.mouse.pressed && PointInsideCircle(this.influence_area.c,this.influence_area.r,input.mouse)){
             console.log("he pulsado dentro del circulo");
             if(my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks > 0){
                 my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks -=1;
-                this.clicks++; 
+                this.inventory.clicks++; 
             }
 
+        }
+        if(input.isKeyDown(this.controls.action.b1) || input.isKeyDown(this.controls.action.b2)){
+            this.inventory.open = !this.inventory.open; 
+            Set_time_out(function(){},when(input.isKeyUp(this.controls.action.b1) || input.isKeyUp(this.controls.action.b2)));
         }
         
 
@@ -186,6 +193,7 @@ class Player {
         ctx.fillStyle='rgba(255,0,0,0.5)';
         ctx.fillRect(this.collider.x,this.collider.y,this.collider.w,this.collider.h);
         */
+       this.inventory.Draw(ctx);
         ctx.fillStyle = 'rgba(255,0,0,0.5)';
         ctx.arc(this.influence_area.c.x,this.influence_area.c.y,this.influence_area.r,0, 2 * Math.PI);
         ctx.fill();

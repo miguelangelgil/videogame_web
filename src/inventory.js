@@ -1,4 +1,4 @@
-class inventory{
+class Inventory{
     //cantidad de clicks que tiene el jugador
     clicks = 0;
     //cantidad de huecos que tiene el inventario
@@ -31,8 +31,9 @@ class inventory{
         h:0,
     }; 
     //constructor de la clase
-    constructor(dimensions_inventory_ui){
+    constructor(dimensions_inventory_ui, dimensions_inventory_ui_open){
         this.dimensions_inventory_ui = dimensions_inventory_ui;
+        this.dimensions_inventory_ui_open = dimensions_inventory_ui_open;
         this.dimension_a_scuare.w = (dimensions_inventory_ui.w/this.n_items_in_down_bar)-5 * this.n_items_in_down_bar; 
         this.dimension_a_scuare.h = dimensions_inventory_ui.h - 10;
     }
@@ -43,7 +44,7 @@ class inventory{
 
     Draw = function(ctx){
         //dependiendo de si esta abierto el inevntario se pinta una cosa u otra
-        if(open){
+        if(this.open){
 
             ctx.fillStyle='rgba(218, 218, 218  ,0.5)';
             ctx.fillRect(this.dimensions_inventory_ui_open.x,this.dimensions_inventory_ui_open.y,this.dimensions_inventory_ui_open.w,this.dimensions_inventory_ui_open.h);
@@ -56,7 +57,7 @@ class inventory{
                         ctx.fillStyle='rgba(248, 245, 245  ,0.5)';
                     else
                         ctx.fillStyle='rgba(137, 137, 137  ,0.5)';
-                    ctx.fillRect(this.dimensions_inventory_ui_open.x + (dimension_a_scuare.w + 5)*x,this.dimensions_inventory_ui_open.y + (dimension_a_scuare.h + 5)*y ,this.dimension_a_scuare.w,this.dimension_a_scuare.h);
+                    ctx.fillRect(this.dimensions_inventory_ui_open.x + (this.dimension_a_scuare.w + 5)*x,this.dimensions_inventory_ui_open.y + (this.dimension_a_scuare.h + 5)*y ,this.dimension_a_scuare.w,this.dimension_a_scuare.h);
     
 
                 }
@@ -76,7 +77,7 @@ class inventory{
                     ctx.fillStyle='rgba(248, 245, 245  ,0.5)';
                 else
                     ctx.fillStyle='rgba(137, 137, 137  ,0.5)';
-                ctx.fillRect(this.dimensions_inventory_ui.x + (dimension_a_scuare.w + 5)*i,this.dimensions_inventory_ui.y,this.dimension_a_scuare.w,this.dimension_a_scuare.h);
+                ctx.fillRect(this.dimensions_inventory_ui.x + (this.dimension_a_scuare.w + 5)*i,this.dimensions_inventory_ui.y,this.dimension_a_scuare.w,this.dimension_a_scuare.h);
 
             }
         }
