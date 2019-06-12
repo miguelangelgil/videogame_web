@@ -4,7 +4,8 @@ class Inventory{
     //cantidad de huecos que tiene el inventario
     spaces= 18;
     //referencia a los items del inventario
-    items=Array(18);
+    items=Array(6);
+    shop = 
     //cantidad de items que se ven en el inventario cuando esta cerrado
     n_items_in_down_bar = 6;
     //que espacio del inventario esta seleccionado
@@ -31,17 +32,14 @@ class Inventory{
         h:0,
     }; 
     //constructor de la clase
-    constructor(dimensions_inventory_ui, dimensions_inventory_ui_open){
-        this.dimensions_inventory_ui = dimensions_inventory_ui;
-        this.dimensions_inventory_ui_open = dimensions_inventory_ui_open;
-        this.dimension_a_scuare.w = (dimensions_inventory_ui.w/this.n_items_in_down_bar)-5 * this.n_items_in_down_bar; 
-        this.dimension_a_scuare.h = dimensions_inventory_ui.h - 10;
-    }
 
     Update = function(deltaTime){
+        this.dimensions_inventory_ui = {x:(canvas.width/2) - 400,y:canvas.height - 100,w:800,h:100};
+        this.dimensions_inventory_ui_open =  {x:(canvas.width/2)+100, y:(canvas.height/2) - 80,w:200,h:150};
+        this.dimension_a_scuare.w = (this.dimensions_inventory_ui.w/this.n_items_in_down_bar)-5 * this.n_items_in_down_bar; 
+        this.dimension_a_scuare.h = this.dimensions_inventory_ui.h - 2;
 
     };
-
     Draw = function(ctx){
         //dependiendo de si esta abierto el inevntario se pinta una cosa u otra
         if(this.open){
@@ -77,10 +75,17 @@ class Inventory{
                     ctx.fillStyle='rgba(248, 245, 245  ,0.5)';
                 else
                     ctx.fillStyle='rgba(137, 137, 137  ,0.5)';
-                ctx.fillRect(this.dimensions_inventory_ui.x + (this.dimension_a_scuare.w + 5)*i,this.dimensions_inventory_ui.y,this.dimension_a_scuare.w,this.dimension_a_scuare.h);
+                if(i==0)
+                    ctx.fillRect(this.dimensions_inventory_ui.x + (this.dimension_a_scuare.w/2),this.dimensions_inventory_ui.y,this.dimension_a_scuare.w,this.dimension_a_scuare.h);
+                else
+                    ctx.fillRect(this.dimensions_inventory_ui.x + (this.dimension_a_scuare.w/2) + (this.dimension_a_scuare.w + 5)*i,this.dimensions_inventory_ui.y,this.dimension_a_scuare.w,this.dimension_a_scuare.h);
 
             }
         }
+        ctx.textAlign = 'left';
+        ctx.fillStyle = "white";
+        ctx.font="20px Comic Sans MS"
+        ctx.fillText('Clicks: ' + this.clicks, 10, 20);
         
     };
 }

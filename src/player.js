@@ -34,7 +34,9 @@ class Player {
     //controles del player
     controls = new Controls();
     //inventario del jugador
-    inventory = new Inventory({x:(canvas.width/2) - 400,y:canvas.height - 50,w:800,h:50},{x:(canvas.width/2)+100, y:(canvas.height/2) - 80,w:200,h:150});
+    inventory = new Inventory();
+    //herramienta mano
+    hand = new Hand();
     //la mitad de la imagen del player
     half_size_img ={
         x : null,
@@ -130,6 +132,13 @@ class Player {
                 }
     
             }
+            //Controles del menu barra
+            if(input.isKeyPressed(this.controls.item1)){this.inventory.foco = 0};
+            if(input.isKeyPressed(this.controls.item2)){this.inventory.foco = 1};
+            if(input.isKeyPressed(this.controls.item3)){this.inventory.foco = 2};
+            if(input.isKeyPressed(this.controls.item4)){this.inventory.foco = 3};
+            if(input.isKeyPressed(this.controls.item5)){this.inventory.foco = 4};
+            if(input.isKeyPressed(this.controls.item6)){this.inventory.foco = 5};
             
 
         }else{
@@ -154,14 +163,28 @@ class Player {
         if(input.mouse.pressed && PointInsideCircle(this.influence_area.c,this.influence_area.r,input.mouse)){
             console.log("he pulsado dentro del circulo");
             if(my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks > 0){
-                my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks -=1;
-                this.inventory.clicks++; 
+                if(this.inventory.items[this.inventory.foco] != null){
+                    if(this.inventory.items[this.inventory.foco].works != undefined){
+                        if(this.inventory.items[this.inventory.foco].works.mine==true){
+
+                        }
+
+                    }
+                    
+
+                }
+                else{
+                    if(this.hand.Working(deltaTime)){this.inventory.clicks++;  my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks -=1; }
+                }
+                
+                
             }
 
         }
-        if(input.isKeyDown(this.controls.action.b1) || input.isKeyDown(this.controls.action.b2)){
-            this.inventory.open = !this.inventory.open; 
-            Set_time_out(function(){},when(input.isKeyUp(this.controls.action.b1) || input.isKeyUp(this.controls.action.b2)));
+        if(input.isKeyPressed(this.controls.action.b1) || input.isKeyPressed(this.controls.action.b2)){
+            if(input.isKeyUp(this.controls.action.b1) || input.isKeyUp(this.controls.action.b2))
+                this.inventory.open = !this.inventory.open; 
+            //Set_time_out(function(){},when(input.isKeyUp(this.controls.action.b1) || input.isKeyUp(this.controls.action.b2)));
         }
         
 
@@ -184,6 +207,9 @@ class Player {
             this.tile_actual.y = ((this.position.y - my_camera.offset.y) + this.half_size_img.y) / 45;
         }
 
+        this.inventory.Update(deltaTime);
+        
+
 
     };
     Draw = function(ctx) {
@@ -194,9 +220,10 @@ class Player {
         ctx.fillRect(this.collider.x,this.collider.y,this.collider.w,this.collider.h);
         */
        this.inventory.Draw(ctx);
-        ctx.fillStyle = 'rgba(255,0,0,0.5)';
+        /*ctx.fillStyle = 'rgba(255,0,0,0.5)';
         ctx.arc(this.influence_area.c.x,this.influence_area.c.y,this.influence_area.r,0, 2 * Math.PI);
         ctx.fill();
+        */
     
        
         
