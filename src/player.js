@@ -54,6 +54,7 @@ class Player {
         this.half_size_img = {x: ((this.img.width/4)/2), y: ((this.img.height/4)/2)};
         this.collider.w = this.img.width/4 - 14;
         this.collider.h = this.img.height/4 - 18;
+        this.inventory.Start(this.input);
          
         
 
@@ -132,13 +133,9 @@ class Player {
                 }
     
             }
-            //Controles del menu barra
-            if(input.isKeyPressed(this.controls.item1)){this.inventory.foco = 0};
-            if(input.isKeyPressed(this.controls.item2)){this.inventory.foco = 1};
-            if(input.isKeyPressed(this.controls.item3)){this.inventory.foco = 2};
-            if(input.isKeyPressed(this.controls.item4)){this.inventory.foco = 3};
-            if(input.isKeyPressed(this.controls.item5)){this.inventory.foco = 4};
-            if(input.isKeyPressed(this.controls.item6)){this.inventory.foco = 5};
+           
+
+           
             
 
         }else{
@@ -158,7 +155,40 @@ class Player {
                     break;
                 }
 
+        
         }
+         //Controles del menu barra
+         if(input.isKeyPressed(this.controls.item1)){this.inventory.foco = 0};
+         if(input.isKeyPressed(this.controls.item2)){this.inventory.foco = 1};
+         if(input.isKeyPressed(this.controls.item3)){this.inventory.foco = 2};
+         if(input.isKeyPressed(this.controls.item4)){this.inventory.foco = 3};
+         if(input.isKeyPressed(this.controls.item5)){this.inventory.foco = 4};
+         if(input.isKeyPressed(this.controls.item6)){this.inventory.foco = 5};
+
+        this.inventory.shop.foreach(function(element){
+
+            if(this.inventory.open && input.mouse.pressed && CheckCollisionRect(input.mouse.position,{coord:{x:element.position.x, y:element.position.y},width:element.dimensions.w,height:element.dimensions.h}))
+            {
+                if(element.price <= this.inventory.clicks)
+                {
+                    this.inventory.items.foreach(function(item){
+                        if(item == null)
+                        {
+                            item = new Pick();
+                            item.Start_animate(this.shop[i].quality);
+                            this.inventory.clicks -= this.shop[i].price;
+                        }
+                    })
+                }
+
+
+            }
+
+        });
+         
+
+
+
         //control con el raton
         if(input.mouse.pressed && PointInsideCircle(this.influence_area.c,this.influence_area.r,input.mouse)){
             console.log("he pulsado dentro del circulo");

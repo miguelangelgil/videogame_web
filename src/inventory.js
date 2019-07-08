@@ -5,7 +5,7 @@ class Inventory{
     spaces= 18;
     //referencia a los items del inventario
     items=Array(6);
-    shop = 
+    shop = Array(4);
     //cantidad de items que se ven en el inventario cuando esta cerrado
     n_items_in_down_bar = 6;
     //que espacio del inventario esta seleccionado
@@ -33,9 +33,18 @@ class Inventory{
     }; 
     //constructor de la clase
 
+    Start = function()
+    {   
+        for(var i = 0; i < this.shop.length;i++)
+        {
+            this.shop[i] = new Pick();
+            this.shop[i].Start_animate(i);
+        }
+    };
+
     Update = function(deltaTime){
         this.dimensions_inventory_ui = {x:(canvas.width/2) - 400,y:canvas.height - 100,w:800,h:100};
-        this.dimensions_inventory_ui_open =  {x:(canvas.width/2)+100, y:(canvas.height/2) - 80,w:200,h:150};
+        this.dimensions_inventory_ui_open =  {x:(canvas.width/2)-100, y:(canvas.height/2) - 80,w:200,h:150};
         this.dimension_a_scuare.w = (this.dimensions_inventory_ui.w/this.n_items_in_down_bar)-5 * this.n_items_in_down_bar; 
         this.dimension_a_scuare.h = this.dimensions_inventory_ui.h - 2;
 
@@ -45,22 +54,37 @@ class Inventory{
         if(this.open){
 
             ctx.fillStyle='rgba(218, 218, 218  ,0.5)';
-            ctx.fillRect(this.dimensions_inventory_ui_open.x,this.dimensions_inventory_ui_open.y,this.dimensions_inventory_ui_open.w,this.dimensions_inventory_ui_open.h);
-            for(var y = 0; y < this.spaces/this.n_items_in_down_bar; y++){
-                for(var x = 0;x < this.n_items_in_down_bar;x++){
-                    if(this.items[x*(y+1)] != null){
-                        this.items[x*(y+1)].Draw();
+            ctx.fillRect(this.dimensions_inventory_ui_open.x,this.dimensions_inventory_ui_open.y,(this.dimension_a_scuare.w +5) * 4,this.dimensions_inventory_ui_open.h);
+            
+            for(var i = 0;i < this.shop.length;i++){
+                if(this.shop[i] != null){
+                    this.shop[i].Draw(ctx, {x:this.dimensions_inventory_ui_open.x + (this.dimension_a_scuare.w + 5)*i,y: this.dimensions_inventory_ui_open.y}); //(ctx,world_position,sprite_position,space_between_frames)
+                    ctx.textAlign = 'left';
+                    ctx.fillStyle = this.shop[i].price <= this.clicks ? "black" : 'red';
+                    ctx.font="10px Comic Sans MS"
+                    ctx.fillText('Price: ' + this.shop[i].price +' clicks',this.dimensions_inventory_ui_open.x + (this.dimension_a_scuare.w + 5)*i , this.dimensions_inventory_ui_open.y + this.dimension_a_scuare.h + 10);
+                    if(this.shop[i].Collision() && this.shop[i].price <= this.clicks)
+                    {
+                        this.inventory.foreach(function(item){
+                            if(item == null)
+                            {
+                                item = new Pick();
+                                item.Start_animate(this.shop[i].quality);
+                                this.clicks -= this.shop[i].price;
+                            }
+                        })
                     }
-                    if(this.foco == x*(y+1))
-                        ctx.fillStyle='rgba(248, 245, 245  ,0.5)';
-                    else
-                        ctx.fillStyle='rgba(137, 137, 137  ,0.5)';
-                    ctx.fillRect(this.dimensions_inventory_ui_open.x + (this.dimension_a_scuare.w + 5)*x,this.dimensions_inventory_ui_open.y + (this.dimension_a_scuare.h + 5)*y ,this.dimension_a_scuare.w,this.dimension_a_scuare.h);
-    
-
                 }
+                if(this.foco == i)
+                    ctx.fillStyle='rgba(248, 245, 245  ,0.5)';
+                else
+                    ctx.fillStyle='rgba(137, 137, 137  ,0.5)';
+                ctx.fillRect(this.dimensions_inventory_ui_open.x + (this.dimension_a_scuare.w + 5)*i,this.dimensions_inventory_ui_open.y ,this.dimension_a_scuare.w,this.dimension_a_scuare.h);
+
 
             }
+
+            
 
 
 
