@@ -47,6 +47,8 @@ class Player {
         x:0,
         y:0,
     }
+    //audio de la piedra al romperse
+    break_stone;
 
     Start = function() {
         this.img = player_img;
@@ -55,6 +57,8 @@ class Player {
         this.collider.w = this.img.width/4 - 14;
         this.collider.h = this.img.height/4 - 18;
         this.inventory.Start(this.input);
+        this.position={x:canvas.width/2,y:canvas.height/2};
+        this.break_stone = document.getElementById("piedra");
          
         
 
@@ -165,26 +169,31 @@ class Player {
          if(input.isKeyPressed(this.controls.item5)){this.inventory.foco = 4};
          if(input.isKeyPressed(this.controls.item6)){this.inventory.foco = 5};
 
-        this.inventory.shop.foreach(function(element){
+         for(var i = 0;i < this.inventory.shop.length;i++){
 
-            if(this.inventory.open && input.mouse.pressed && CheckCollisionRect(input.mouse.position,{coord:{x:element.position.x, y:element.position.y},width:element.dimensions.w,height:element.dimensions.h}))
+            if(this.inventory.open && input.mouse.pressed && CheckCollisionRect(input.mouse,{coord:{x:this.inventory.shop[i].position.x, y:this.inventory.shop[i].position.y},width:this.inventory.shop[i].dimensions.w*2,height:this.inventory.shop[i].dimensions.h*2}))
             {
-                if(element.price <= this.inventory.clicks)
+                if(this.inventory.shop[i].price <= this.inventory.clicks)
                 {
-                    this.inventory.items.foreach(function(item){
-                        if(item == null)
+                    for(var j = 0;j < this.inventory.items.length;j++)
+                    {
+                        if(this.inventory.items[j] == null)
                         {
-                            item = new Pick();
-                            item.Start_animate(this.shop[i].quality);
-                            this.inventory.clicks -= this.shop[i].price;
+                            this.inventory.items[j] = new Pick();
+                            this.inventory.items[j].Start_animate(this.inventory.shop[i].quality);
+                            this.inventory.clicks -= this.inventory.shop[i].price;
+                            break;
+
                         }
-                    })
+                    }
+                   
                 }
 
 
             }
 
-        });
+         }
+      
          
 
 
@@ -196,6 +205,7 @@ class Player {
                 if(this.inventory.items[this.inventory.foco] != null){
                     if(this.inventory.items[this.inventory.foco].works != undefined){
                         if(this.inventory.items[this.inventory.foco].works.mine==true){
+                            if(this.inventory.items[this.inventory.foco].Working(deltaTime)){this.inventory.clicks++;  my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks -=1; }
 
                         }
 
@@ -206,14 +216,19 @@ class Player {
                 else{
                     if(this.hand.Working(deltaTime)){this.inventory.clicks++;  my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks -=1; }
                 }
-                
+
+               this.break_stone.play();
                 
             }
 
         }
         if(input.isKeyPressed(this.controls.action.b1) || input.isKeyPressed(this.controls.action.b2)){
             if(input.isKeyUp(this.controls.action.b1) || input.isKeyUp(this.controls.action.b2))
+            {
                 this.inventory.open = !this.inventory.open; 
+
+            }
+                
             //Set_time_out(function(){},when(input.isKeyUp(this.controls.action.b1) || input.isKeyUp(this.controls.action.b2)));
         }
         
@@ -254,6 +269,14 @@ class Player {
         ctx.arc(this.influence_area.c.x,this.influence_area.c.y,this.influence_area.r,0, 2 * Math.PI);
         ctx.fill();
         */
+
+       if(input.mouse.pressed && PointInsideCircle(this.influence_area.c,this.influence_area.r,input.mouse))
+        if(my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks > 0){
+            ctx.textAlign = 'left';
+            ctx.fillStyle = "white";
+            ctx.font="10px Comic Sans MS"
+            ctx.fillText(this.inventory.items[this.inventory.foco] == null ? this.hand.aux_time_to_make_work.toFixed(2) + '/' + this.hand.time_to_make_work : this.inventory.items[this.inventory.foco].aux_time_to_make_work.toFixed(2) + '/' + this.inventory.items[this.inventory.foco].time_to_make_work,input.mouse.x, input.mouse.y);
+        }
     
        
         

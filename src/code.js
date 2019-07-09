@@ -23,7 +23,9 @@ var time = 0,
 var my_player = null;
 var my_world = null;
 var my_camera = null;
-
+var in_game = false;
+var my_menu;
+ 
 window.requestAnimationFrame = (function (evt) {
     return window.requestAnimationFrame ||
         window.mozRequestAnimationFrame    ||
@@ -44,32 +46,6 @@ if (canvas)
         
         SetupKeyboardEvents();
         SetupMouseEvents();
-        //cargo los assets del juego
-        //do{full_load = load_Tiles_img();}while(!full_load);
-        //do{full_load = load_player_img();}while(!full_load);
-        
-        //aqui hay que dar valores a las variables y dar rutas
-
-        /*bulletImg = new Image();
-        bulletImg.src = "../assets/bullet.png";
-        bulletImg.onload = function(){
-
-            playershipImg = new Image();
-            playershipImg.src="../assets/player_ship.png";
-            playershipImg.onload = function(){
-
-                invaderImg = new Image();
-                invaderImg.src="../assets/invader1.png";
-                invaderImg.onload = function()
-                {
-                    Start();
-
-                    //setInterval(Loop, deltaTime);
-                    Loop();
-
-                };
-            };
-        };*/
         
         //las funciones de carga de assets son asincronicas por lo que lo que nos devuelve es una promesa
         if(load_all_img().then((load)=>load==true)){
@@ -82,26 +58,29 @@ if (canvas)
     }
 }
 
+
 function Start (){
-    my_world = world;
-    my_player = new Player();
-    my_player.Start();
-    my_world.Start({x:100,y:100},5,15,80);
-    my_camera = new Camera(my_player,my_world,canvas,{x:20,y:20});
-    my_camera.Start();
-    my_world.build_world();
-    
-   
-    //ctx.drawImage(Tile_clicks_img,0,0);
-    //player = new my_player();
-    //player.Start();
+    //my_menu = new Menu(canvas);
+    if(in_game)
+    {
+        my_world = world;
+        my_player = new Player();
+        my_player.Start();
+        my_world.Start({x:100,y:100},5,15,80);
+        my_camera = new Camera(my_player,my_world,canvas,{x:20,y:20});
+        my_camera.Start();
+        my_world.build_world();
+
+    }
 
 
 }
 function Loop (){
     //console.log("loop");
     requestAnimationFrame(Loop);
-    // compute fps
+    //my_menu.Update();
+    
+         // compute fps
     var now = Date.now();
     deltaTime = now - time;
     // si el tiempo es mayor a 1 seg: se descarta
@@ -120,9 +99,14 @@ function Loop (){
     //var now = new Date().getTime();
     //console.log("elapsed time: " + (now - currentDT));
     //currentDT = now;
+    if(in_game)
+    {
 
-    Update(deltaTime / 1000);
-    Draw();
+        Update(deltaTime / 1000);
+        Draw();
+
+    }
+   
 }
 function Update (deltaTime){
     my_player.Update(deltaTime);
@@ -131,10 +115,15 @@ function Update (deltaTime){
 
 }
 function Draw (){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    my_world.Draw(ctx);
-    //ctx.drawImage(player_img, 0, 0, 55, 55, 0, 0, 64,64);
-    my_player.Draw(ctx);
+    if(in_game)
+    {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        my_world.Draw(ctx);
+        //ctx.drawImage(player_img, 0, 0, 55, 55, 0, 0, 64,64);
+        my_player.Draw(ctx);
+
+    }
+    
     
 
 }

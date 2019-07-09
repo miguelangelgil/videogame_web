@@ -10,6 +10,7 @@ const KEY_PAUSE = 19;
 const KEY_SPACE = 32;
 const KEY_SCAPE = 27;
 const KEY_LSHIFT = 16;
+const KEY_M = 77;
 
 const KEY_0 = 48;
 const KEY_1 = 49;

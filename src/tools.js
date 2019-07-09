@@ -51,6 +51,7 @@ class Pick{
             this.aux_time_to_make_work += deltaTime;
         if(this.aux_time_to_make_work >= this.time_to_make_work){
             this.aux_time_to_make_work=0;
+            this.n_applications--;
             return true;
         }
         return false;

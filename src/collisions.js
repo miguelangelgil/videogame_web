@@ -10,7 +10,6 @@ function PointInsideCircle (circlePosition, circleRadius2, point)
 
 function CheckCollisionRect (point, rectangle)
 {
-    debugger;
     return point.x >= (rectangle.coord.x) &&
            point.x <= (rectangle.coord.x + rectangle.width) &&
            point.y >= (rectangle.coord.y) &&
