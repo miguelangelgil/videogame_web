@@ -65,14 +65,9 @@ class Player {
     };
     Update = function(deltaTime) {
       
-        /*     
-        my_world.tile_world[Math.trunc(this.tile_actual.x)][Math.trunc(this.tile_actual.y)].tile_position = {x:5,y:2};
-        my_world.tile_world[Math.trunc(this.tile_actual.x)][Math.trunc(this.tile_actual.y)].kind_of_tile=7;
-        my_world.tile_world[Math.trunc(this.tile_actual.x)][Math.trunc(this.tile_actual.y)].select_kind_of_Tile();
-        */
         
         
-
+        //en estos bloques de if elses se lleva a cabo el desplazamiento del jugador comprobando las colisiones y actualizando las animaciones del jugador
         if(my_world.tile_world[Math.trunc(this.tile_actual.x)][Math.trunc(this.tile_actual.y)].walkable){
             if(input.isKeyPressed(this.controls.up.b1) || input.isKeyPressed(this.controls.up.b2)) {
                 this.n_animation = 2;
@@ -161,7 +156,7 @@ class Player {
 
         
         }
-         //Controles del menu barra
+         //Controles del menu barra , indica donde se situa el foco
          if(input.isKeyPressed(this.controls.item1)){this.inventory.foco = 0};
          if(input.isKeyPressed(this.controls.item2)){this.inventory.foco = 1};
          if(input.isKeyPressed(this.controls.item3)){this.inventory.foco = 2};
@@ -169,12 +164,15 @@ class Player {
          if(input.isKeyPressed(this.controls.item5)){this.inventory.foco = 4};
          if(input.isKeyPressed(this.controls.item6)){this.inventory.foco = 5};
 
+         //aqui se hace el sistema de compra del inventario
          for(var i = 0;i < this.inventory.shop.length;i++){
-
+            //si el inventario esta abierto y se presiona el rato se comprueba la colision del raton con los items de la tienda
             if(this.inventory.open && input.mouse.pressed && CheckCollisionRect(input.mouse,{coord:{x:this.inventory.shop[i].position.x, y:this.inventory.shop[i].position.y},width:this.inventory.shop[i].dimensions.w*2,height:this.inventory.shop[i].dimensions.h*2}))
             {
+                //se comprueba si el jugador puede permitirse el precio del producto
                 if(this.inventory.shop[i].price <= this.inventory.clicks)
                 {
+                    //se comprueba si el jugador tiene sitio dispobible en el inventario y en caso afirmativo se almacena en el primero que encuentre
                     for(var j = 0;j < this.inventory.items.length;j++)
                     {
                         if(this.inventory.items[j] == null)
@@ -198,13 +196,15 @@ class Player {
 
 
 
-        //control con el raton
+        //control con el raton, esta limitado por un area de accion que rodea al jugador
         if(input.mouse.pressed && PointInsideCircle(this.influence_area.c,this.influence_area.r,input.mouse)){
-            console.log("he pulsado dentro del circulo");
             if(my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks > 0){
+                //si se dispone de una herramienta en el hueco del inventario seleccionado se usará
                 if(this.inventory.items[this.inventory.foco] != null){
                     if(this.inventory.items[this.inventory.foco].works != undefined){
+                        //se comprueva si la herramienta esta capacitada para minar
                         if(this.inventory.items[this.inventory.foco].works.mine==true){
+                            //una vez se pase todas las comprobaciones se accionará la erramienta y cuando esta devuelva un true, que significa que ha conseguido minar un click, se le sumara al inventario del jugador y se le restrá al terreno del mapa
                             if(this.inventory.items[this.inventory.foco].Working(deltaTime)){this.inventory.clicks++;  my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks -=1; }
 
                         }
@@ -213,31 +213,28 @@ class Player {
                     
 
                 }
+                //en el caso de que no se disponga de una herramienta en el hueco del inventario seleccionado se usara la herramienta por defecto "hand"
                 else{
+                     //una vez se pase todas las comprobaciones se accionará la erramienta y cuando esta devuelva un true, que significa que ha conseguido minar un click, se le sumara al inventario del jugador y se le restrá al terreno del mapa
                     if(this.hand.Working(deltaTime)){this.inventory.clicks++;  my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks -=1; }
                 }
-
+                //mientras se mantenga el raton presionado sobre un bloque con clicks y este este en el area de accion del jugador se reproducirá estre sonido, simula estra minando
                this.break_stone.play();
                 
             }
 
         }
+        //pulsando e se acciona el menu de compra y al volverlo a pulsar se cierra / probé a poner keyup pero entonces la tienda se quedaba pillada
         if(input.isKeyPressed(this.controls.action.b1) || input.isKeyPressed(this.controls.action.b2)){
-            if(input.isKeyUp(this.controls.action.b1) || input.isKeyUp(this.controls.action.b2))
-            {
-                this.inventory.open = !this.inventory.open; 
-
-            }
-                
-            //Set_time_out(function(){},when(input.isKeyUp(this.controls.action.b1) || input.isKeyUp(this.controls.action.b2)));
+            this.inventory.open = !this.inventory.open;
         }
         
-
+        //aquí ajustamos los colliders del jugador y el area de influencia que le rodea
         this.collider.x = this.position.x + 5;
         this.collider.y = this.position.y + 5;
         this.influence_area.c.x = this.position.x;
         this.influence_area.c.y = this.position.y; 
-        
+        //esto determina si el jugador es esta moviendo, esta comprobacion se hace para ahorra recursos y no estra reasignando siempre el tile actual que almacena el jugador 
         if(input.isKeyPressed(this.controls.up.b1) || input.isKeyPressed(this.controls.down.b1) || input.isKeyPressed(this.controls.left.b1) || input.isKeyPressed(this.controls.right.b1) 
             || input.isKeyPressed(this.controls.up.b2) || input.isKeyPressed(this.controls.down.b2) || input.isKeyPressed(this.controls.left.b2) || input.isKeyPressed(this.controls.right.b2)){
                 this.statico = false;
@@ -245,7 +242,7 @@ class Player {
                 this.statico = true;
             }
         
-
+            //se guarda la posicion del jugador en relaccion con la cuadricula de tiles solo cuando el jugador se desplace
         if(!this.statico)
         {
             this.tile_actual.x = ((this.position.x - my_camera.offset.x) + this.half_size_img.x) / 45;
@@ -258,18 +255,11 @@ class Player {
 
     };
     Draw = function(ctx) {
-        
+        //realiza las animaciones del jugador, esto lo administra completamente la clase animate
         this.animate.animate(ctx,this.position,this.n_animation, this.statico);
-        /*
-        ctx.fillStyle='rgba(255,0,0,0.5)';
-        ctx.fillRect(this.collider.x,this.collider.y,this.collider.w,this.collider.h);
-        */
-       this.inventory.Draw(ctx);
-        /*ctx.fillStyle = 'rgba(255,0,0,0.5)';
-        ctx.arc(this.influence_area.c.x,this.influence_area.c.y,this.influence_area.r,0, 2 * Math.PI);
-        ctx.fill();
-        */
+        this.inventory.Draw(ctx);
 
+        //si el raton esta pulsado dentro del area de influencia del jugador y sobre un bloque que contiene clicks, se pintará a la derecha del raton unos numeros que indican el tiempo de minería que hay que emplear para minar un click
        if(input.mouse.pressed && PointInsideCircle(this.influence_area.c,this.influence_area.r,input.mouse))
         if(my_world.tile_world[Math.trunc((input.mouse.x-my_camera.offset.x)/45)][Math.trunc((input.mouse.y-my_camera.offset.y)/45)].clicks > 0){
             ctx.textAlign = 'left';

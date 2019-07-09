@@ -1,3 +1,5 @@
+
+//con esta clase me puedo permitir cambiar los controles desde un menú si se quisiera y ademas me permite tener 2 controles para cada acción
 class Controls {
     up ={ b1: KEY_UP, b2: KEY_W};
     down ={ b1: KEY_DOWN, b2: KEY_S};

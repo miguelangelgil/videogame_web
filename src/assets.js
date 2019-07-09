@@ -1,3 +1,6 @@
+//en este ecript se guardan todos los recursos graficos en variables globales para poder acceder desde cualquier lugar, se cargan de forma asincrona y cuando acaban de cargar todos los recursos devuelve un true
+
+
 let Tile_grass_img;
 let Tile_clicks_img;
 let Tiles_world_img;

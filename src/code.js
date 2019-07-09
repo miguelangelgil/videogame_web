@@ -23,8 +23,8 @@ var time = 0,
 var my_player = null;
 var my_world = null;
 var my_camera = null;
-var in_game = false;
-var my_menu;
+var in_game = true;
+
  
 window.requestAnimationFrame = (function (evt) {
     return window.requestAnimationFrame ||
@@ -60,7 +60,6 @@ if (canvas)
 
 
 function Start (){
-    //my_menu = new Menu(canvas);
     if(in_game)
     {
         my_world = world;
@@ -68,7 +67,6 @@ function Start (){
         my_player.Start();
         my_world.Start({x:100,y:100},5,15,80);
         my_camera = new Camera(my_player,my_world,canvas,{x:20,y:20});
-        my_camera.Start();
         my_world.build_world();
 
     }
@@ -78,7 +76,6 @@ function Start (){
 function Loop (){
     //console.log("loop");
     requestAnimationFrame(Loop);
-    //my_menu.Update();
     
          // compute fps
     var now = Date.now();

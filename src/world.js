@@ -101,24 +101,7 @@ let world = {
                     this.tile_world[this.position_array.x][this.position_array.y].near_Tiles[3] = null;
             }   
         }
-        /*
-        this.tile_world.forEach(function(fila){
-            fila.forEach(function(Tile){
-                Tile.transfer_water();
-            });
-        });
-        this.tile_world.forEach(function(fila){
-            fila.forEach(function(Tile){
-                Tile.transfer_green();
-            });
-        });
-        this.tile_world.forEach(function(fila){
-            fila.forEach(function(Tile){
-                Tile.transfer_clicks();
-            });
-        });
-        //this.tile_world[0][0].transfer_clicks();
-        */
+       
     },
     Start: function(size, amount_of_clicks,amount_of_water,amount_of_green){
         this.size.x = size.x;
@@ -271,16 +254,7 @@ class Tile {
         }else{
             this.renderizado = false;
         }
-        /*
-        if(this.up_hitbox)
-            ctx.fillStyle='rgba(0,255,0,0.5)';
-        else
-            ctx.fillStyle='rgba(255,0,0,0.5)';
-        ctx.fillRect(this.collider.x,this.collider.y,this.collider.w,this.collider.h);
-        */
-        
-            
-
+      
 
      };
      select_kind_of_Tile = function(){

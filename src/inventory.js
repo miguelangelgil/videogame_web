@@ -72,7 +72,7 @@ class Inventory{
 
     };
     Draw = function(ctx){
-        //dependiendo de si esta abierto el inevntario se pinta una cosa u otra
+        //si está abierto se pinta la tienda
         if(this.open){
 
             ctx.fillStyle='rgba(218, 218, 218  ,0.5)';
@@ -95,7 +95,7 @@ class Inventory{
             
 
 
-
+            //si está cerrado se pinta el inventario
         }else{
             ctx.fillStyle='rgba(218, 218, 218  ,0.5)';
             ctx.fillRect(this.dimensions_inventory_ui.x,this.dimensions_inventory_ui.y,this.dimensions_inventory_ui.w,this.dimensions_inventory_ui.h);

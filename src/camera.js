@@ -8,14 +8,9 @@ function Camera (player, world, canvas,limits)
     this.zoom = 3;
 }
 
-Camera.prototype.Start = function ()
-{
-   
-  
-}
-
 Camera.prototype.Update = function (deltaTime)
 {
+    //la camara trata de ir actualizando unas coordenadas que se suman a las coordenadas de todos los objetos estáticos y así dar una impresión de movimeinto por el mundo
     if(this.player.position.x > this.canvas.width/2 + this.limits.x && this.world.world_corners[2].position_with_offset.x >= this.canvas.width){
         this.offset.x -= this.player.speed * deltaTime;
         this.player.position.x -= this.player.speed * deltaTime;
